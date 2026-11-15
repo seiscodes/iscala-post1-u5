@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Nueva Reserva</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    label { display: block; margin: .5rem 0; }
+    .error { color: #b00020; font-weight: bold; }
+    .campo-error { color: #b00020; font-size: .9em; margin-left: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>Nueva Reserva</h1>
+
+  <p class="error" th:if="${error}" th:text="${error}"></p>
+
+  <form th:action="@{/reservas}" th:object="${reserva}" method="post">
+    <label>Laboratorio:
+      <select name="laboratorio.id">
+        <option th:each="lab : ${laboratorios}" th:value="${lab.id}"
+                th:text="${lab.nombre + ' — ' + lab.ubicacion}"></option>
+      </select>
+    </label>
+    <label>Nombre solicitante: <input type="text" th:field="*{nombreSolicitante}"/>
+      <span class="campo-error" th:if="${#fields.hasErrors('nombreSolicitante')}" th:errors="*{nombreSolicitante}"></span>
+    </label>
+    <label>Correo: <input type="email" th:field="*{correoSolicitante}"/>
+      <span class="campo-error" th:if="${#fields.hasErrors('correoSolicitante')}" th:errors="*{correoSolicitante}"></span>
+    </label>
+    <label>Inicio: <input type="datetime-local" th:field="*{inicio}"/>
+      <span class="campo-error" th:if="${#fields.hasErrors('inicio')}" th:errors="*{inicio}"></span>
+    </label>
+    <label>Fin: <input type="datetime-local" th:field="*{fin}"/>
+      <span class="campo-error" th:if="${#fields.hasErrors('fin')}" th:errors="*{fin}"></span>
+    </label>
+    <label>Motivo: <input type="text" th:field="*{motivo}"/></label>
+    <button type="submit">Reservar</button>
+    <a th:href="@{/reservas}">Volver al listado</a>
+  </form>
+</body>
+</html>
